@@ -1,27 +1,41 @@
 package main
 
 import (
-	"net/http"
-
+	"fmt"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"golang.org/x/net/websocket"
 )
+
+func hello(c echo.Context) error {
+	websocket.Handler(func(ws *websocket.Conn) {
+		defer ws.Close()
+		for {
+			// Write
+			err := websocket.Message.Send(ws, "Hello client!")
+			if err != nil {
+				c.Logger().Error(err)
+			}
+
+			// Read
+			msg := ""
+			err = websocket.Message.Receive(ws, &msg)
+			if err != nil {
+				c.Logger().Error(err)
+			}
+
+			fmt.Printf("%s\n", msg)
+		}
+	}).ServeHTTP(c.Response(), c.Request())
+
+	return nil
+}
 
 func main() {
 	e := echo.New()
-
-	// Routes
-	e.GET("/users/:id", getUser)
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello World!")
-	})
-
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Static("/", "./public")
+	e.GET("/ws", hello)
 	e.Logger.Fatal(e.Start(":1323"))
-
-}
-
-// e.GET("/users/:id", getUser)
-func getUser(c echo.Context) error {
-	// User ID from path 'users/:id'
-	id := c.Param("id")
-	return c.String(http.StatusOK, id)
 }
