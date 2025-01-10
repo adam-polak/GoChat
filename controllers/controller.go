@@ -1,12 +1,10 @@
 package controller
 
+import "database/sql"
+
 type (
 	Controller struct {
 		// Temporary until db connection set up
-		ID int
+		DB *sql.DB
 	}
-)
-
-const (
-	Key = "secret"
 )

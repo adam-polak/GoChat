@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (c *Controller) Signup(context echo.Context) error {
+func (c *Controller) SignUp(context echo.Context) error {
 	return nil
 }
 

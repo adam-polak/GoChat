@@ -2,6 +2,8 @@ package main
 
 import (
 	controller "GoChat/controllers"
+	"GoChat/lib"
+	"database/sql"
 	"fmt"
 
 	"github.com/labstack/echo/v4"
@@ -41,13 +43,23 @@ func main() {
 	// Static
 	e.Static("/", "./public")
 
-	// Initialize controller
-	c := &controller.Controller{ID: 1}
+	// Create db connection
+	connStr, err := lib.GetSecret("ConnectionString")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+
+	c := &controller.Controller{DB: db}
 
 	// Routes
 	e.GET("/ws", hello)
 	e.GET("/login", c.Login)
-	e.GET("/signup", c.Signup)
+	e.GET("/signup", c.SignUp)
 
 	// Restart
 	e.Logger.Fatal(e.Start(":1323"))
