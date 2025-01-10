@@ -1,0 +1,5 @@
+#output {
+  word-break: break-all;
+  overflow-y: scroll;
+  height: 90vh;
+}
