@@ -1,7 +1,9 @@
 package main
 
 import (
+	controller "GoChat/controllers"
 	"fmt"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"golang.org/x/net/websocket"
@@ -35,7 +37,18 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	// Static
 	e.Static("/", "./public")
+
+	// Initialize controller
+	c := &controller.Controller{ID: 1}
+
+	// Routes
 	e.GET("/ws", hello)
+	e.GET("/login", c.Login)
+	e.GET("/signup", c.Signup)
+
+	// Restart
 	e.Logger.Fatal(e.Start(":1323"))
 }
