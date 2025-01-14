@@ -3,9 +3,10 @@ package main
 import (
 	controller "GoChat/controllers"
 	"GoChat/lib"
-	"database/sql"
+	"context"
 	"fmt"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"golang.org/x/net/websocket"
@@ -49,12 +50,13 @@ func main() {
 		e.Logger.Fatal(err)
 	}
 
-	db, err := sql.Open("postgres", connStr)
+	dbPool, err := pgxpool.New(context.Background(), connStr)
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
+	defer dbPool.Close()
 
-	c := &controller.Controller{DB: db}
+	c := &controller.Controller{DB: dbPool}
 
 	// Routes
 	e.GET("/ws", hello)

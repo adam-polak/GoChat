@@ -7,16 +7,11 @@ import (
 	"strings"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
 func GetSecret(key string) (value string, err error) {
-
-	f, err := os.Open("../secrets.json")
-	check(err)
+	f, err := os.Open("secrets.json")
+	if err != nil {
+		return "", err
+	}
 
 	r := bufio.NewReader(f)
 	for {
@@ -25,22 +20,22 @@ func GetSecret(key string) (value string, err error) {
 			break
 		}
 
-		// Remove key from string
-		s, found := strings.CutPrefix(s, "\""+key+"\"")
-		if !found {
+		if !strings.Contains(s, "\""+key+"\"") {
 			continue
 		}
 
-		// Replace white space
-		s = strings.ReplaceAll(s, " ", "")
+		// Split string into key and value
+		arr := strings.Split(s, ":")
+
+		// Remove whitespace from first key half, and add back second half
+		s = strings.ReplaceAll(arr[0], " ", "") + arr[1]
+
+		// Remove key from string
+		s, _ = strings.CutPrefix(s, "\""+key+"\"")
 
 		// Remove quotes
 		s = strings.Replace(s, "\"", "", 2)
 
-		// Remove ':'
-		s = strings.Replace(s, ":", "", 1)
-
-		// Return value associated with input key
 		return s, nil
 	}
 
