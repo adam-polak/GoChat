@@ -42,7 +42,10 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Static
-	e.Static("/", "./public")
+	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Root:   "./public",
+		Browse: true,
+	}))
 
 	// Create db connection
 	connStr, err := lib.GetSecret("ConnectionString")
@@ -61,7 +64,7 @@ func main() {
 	// Routes
 	e.GET("/ws", hello)
 	e.GET("/login", c.Login)
-	e.GET("/signup", c.SignUp)
+	e.POST("/signup", c.SignUp)
 
 	// Restart
 	e.Logger.Fatal(e.Start(":1323"))

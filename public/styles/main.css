@@ -1,0 +1,49 @@
+button {
+    border-radius: 4px;
+    box-shadow: none;
+    border-width: 0px;
+    font-size: 1em;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.bg-lightgrey {
+    background-color: lightgrey;
+}
+
+.bg-blue {
+    background-color: rgb(0, 195, 216);
+}
+
+.bg-blue:hover {
+    background-color: rgb(0, 187, 216);
+}
+
+.text-white {
+    color: white;
+}
+
+.vw40 {
+    width: 40vw;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.center {
+    margin: auto;
+}

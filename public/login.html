@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" href="./styles/main.css">
+    <meta charset="utf-8">
+    <title>Login</title>
+  </head>
+  <body>
+    <form method="POST" action="/login">
+        <div class="container vw40 center">
+            <div class="center">
+                <h4>Login</h4>
+            </div>
+            <div>
+                <input class="w100" type="username" id="username" name="username" />
+            </div>
+            <div>
+                <input class="w100" type="password" id="password" name="password" />
+            </div>
+            <button class="center w50 bg-blue text-white">Login</button>
+            <div class="center">
+                <p>Don't have an account? <a href="#"">Sign up</a></p>
+            </div>
+        </div>
+    </form>
+    <script src="./scripts/login.js">
+    </script>
+  </body>
+</html>
