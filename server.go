@@ -63,7 +63,7 @@ func main() {
 
 	// Routes
 	e.GET("/ws", hello)
-	e.GET("/login", c.Login)
+	e.POST("/login", c.Login)
 	e.POST("/signup", c.SignUp)
 
 	// Restart

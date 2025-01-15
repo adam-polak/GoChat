@@ -9,7 +9,8 @@ func (c *Controller) SignUp(context echo.Context) error {
 }
 
 func (c *Controller) Login(context echo.Context) error {
-	return nil
+	print("Logging in...")
+	return context.Redirect(302, "/")
 }
 
 func (c *Controller) CorrectLoginKey(context echo.Context) error {
